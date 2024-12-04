@@ -84,12 +84,56 @@ public class AddData
         }
     }
 
-    //NOOOOTTT DOONNNEEE -->
-        public static void CreateBookloan()
+    public static void CreateBookloan()
     {
-        using (var context = new AppDbContext())
+        try
         {
-            
+            using (var context = new AppDbContext())
+            {
+                Console.WriteLine("Enter the first and last name of the borrower:");
+                string borrowerName = Console.ReadLine();
+ 
+                if (string.IsNullOrWhiteSpace(borrowerName))
+                {
+                    throw new ArgumentException("The name cannot be clear");
+                }
+ 
+                Console.WriteLine("Enter the name of the book to borrow:");
+                string bookName = Console.ReadLine();
+ 
+                if (string.IsNullOrWhiteSpace(bookName))
+                {
+                    throw new ArgumentException("book title cannot be empty");
+                }
+ 
+                Console.WriteLine("Enter the loan start date (YYYY-MM-DD):");
+                if (!DateTime.TryParse(Console.ReadLine(), out DateTime loanDate))
+                {
+                    throw new ArgumentException("Invalid date format. Please use yyyy-mm-dd");
+                }
+ 
+                Console.WriteLine("Enter the loan return date (YYYY-MM-DD):");
+                if (!DateTime.TryParse(Console.ReadLine(), out DateTime returnDate))
+                {
+                    throw new ArgumentException("Invalid date format. Please use yyyy-mm-dd");
+                }
+                var loan = new Loan
+                {
+                    BorrowerName = borrowerName,
+                    LoanDate = loanDate,
+                    ReturnDate = returnDate
+                };
+ 
+                context.Loans.Add(loan);
+                context.SaveChanges();
+ 
+                Console.WriteLine($"Book '{bookName}' has been loaned to {borrowerName} from {loanDate.ToShortDateString()} to {returnDate.ToShortDateString()}.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
         }
     }
+ 
 }
