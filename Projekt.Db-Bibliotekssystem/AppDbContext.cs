@@ -10,7 +10,7 @@ public class AppDbContext : DbContext
  
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=localhost,1433;Database=Projekt.Db-Bibliotekssystem;User Id=sa;Password=Snödroppe2023;Encrypt=False");
+        optionsBuilder.UseSqlServer("Server=localhost,1433;Database=Projekt.Db-Bibliotekssystem;User Id=sa;Password=XXXX;Encrypt=False");
     }
  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
