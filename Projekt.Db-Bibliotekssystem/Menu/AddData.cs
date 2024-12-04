@@ -9,24 +9,26 @@ public class AddData
         {
             try
             {
-            System.Console.WriteLine("Enter the first name of the Author");
+            System.Console.WriteLine("Enter the first name of the author");
             string firstname = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(firstname))
                 {
-                    throw new ArgumentException("First name cannot be clear");
+                    throw new ArgumentException("First name cannot be empty");
                 }
-            Console.WriteLine("Enter the last name of the Author");
+            Console.WriteLine("Enter the last name of the author");
             string lastname = Console.ReadLine();
+
                 if (string.IsNullOrWhiteSpace(lastname))
                 {
-                    throw new ArgumentException("Last name cannot be clear");
+                    throw new ArgumentException("Last name cannot be empty");
                 }
-            Console.WriteLine("Enter the date of birth of the Author (YYYY-MM-DD)");
-            if (!DateTime.TryParse(Console.ReadLine(), out DateTime dateofbirth))
-            {
-                Console.WriteLine("Invalid format. Please use YYYY-MM-DD");
-                return;
-            }
+            Console.WriteLine("Enter the date of birth of the author (YYYY-MM-DD)");
+
+                if (!DateTime.TryParse(Console.ReadLine(), out DateTime dateofbirth))
+                {
+                    Console.WriteLine("Invalid format. Please use YYYY-MM-DD");
+                    return;
+                }
             var Author = new Author
             {
                 FirstName = firstname,
@@ -37,6 +39,7 @@ public class AddData
             context.SaveChanges();
             Console.WriteLine($"Author {firstname} {lastname} born {dateofbirth} has been added :)");
             }
+
             catch (Exception ex)
             {                
                 Console.WriteLine($"Error: {ex.Message}");
@@ -48,26 +51,28 @@ public class AddData
     {
         using (var context = new AppDbContext())
         {
-             try
+            try
             {
-            System.Console.WriteLine("Enter the Title of the book");
+            System.Console.WriteLine("Enter the title of the book");
             string title = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(title))
                 {
-                    throw new ArgumentException("Title cannot be clear");
+                    throw new ArgumentException("Title cannot be empty");
                 }
             Console.WriteLine("Enter the genre of the book");
             string genre = Console.ReadLine();
+
                 if (string.IsNullOrWhiteSpace(genre))
                 {
-                    throw new ArgumentException("Genre cannot be clear");
+                    throw new ArgumentException("Genre cannot be empty");
                 }
             Console.WriteLine("Enter the publication year of the book");
-            if (!int.TryParse(Console.ReadLine(), out int publicationyear) || publicationyear < 0)
-            {
-                throw new ArgumentException ("Invalid format. Please use YYYY-MM-DD");
-            }
-             var book = new Book
+
+                if (!int.TryParse(Console.ReadLine(), out int publicationyear) || publicationyear < 0)
+                {
+                    throw new ArgumentException ("Invalid format. Please use YYYY-MM-DD");
+                }
+            var book = new Book
             {
                 Title = title,
                 PublicationYear = publicationyear,
@@ -75,8 +80,9 @@ public class AddData
             };
             context.Books.Add(book);
             context.SaveChanges();
-            Console.WriteLine($"Book with the Title {title} published in {publicationyear} with the genre {genre} has been added :)");
+            Console.WriteLine($"Book with the title {title} published in {publicationyear} with the genre {genre} has been added :)");
             }
+
             catch (Exception ex)
             {                
                 Console.WriteLine($"Error: {ex.Message}");
@@ -95,27 +101,26 @@ public class AddData
  
                 if (string.IsNullOrWhiteSpace(borrowerName))
                 {
-                    throw new ArgumentException("The name cannot be clear");
+                    throw new ArgumentException("The borrower name cannot be empty");
                 }
- 
                 Console.WriteLine("Enter the name of the book to borrow:");
                 string bookName = Console.ReadLine();
  
                 if (string.IsNullOrWhiteSpace(bookName))
                 {
-                    throw new ArgumentException("book title cannot be empty");
+                    throw new ArgumentException("Book title cannot be empty");
                 }
- 
                 Console.WriteLine("Enter the loan start date (YYYY-MM-DD):");
+               
                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime loanDate))
                 {
-                    throw new ArgumentException("Invalid date format. Please use yyyy-mm-dd");
+                    throw new ArgumentException("Invalid format. Please use YYYY-MM-DD");
                 }
- 
                 Console.WriteLine("Enter the loan return date (YYYY-MM-DD):");
+                
                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime returnDate))
                 {
-                    throw new ArgumentException("Invalid date format. Please use yyyy-mm-dd");
+                    throw new ArgumentException("Invalid format. Please use YYYY-MM-DD");
                 }
                 var loan = new Loan
                 {
@@ -135,5 +140,4 @@ public class AddData
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
- 
 }
