@@ -17,7 +17,7 @@ public static void DeleteAuthor()
                     throw new ArgumentException("The first name cannot be empty");
                 }
                 System.Console.WriteLine("Enter the last name of the author you want to delete");
-                string lastName = Console.ReadLine().ToUpper();
+                string lastName = Console.ReadLine().ToLower();
                 if (string.IsNullOrWhiteSpace(lastName))
                 {
                     throw new ArgumentException("The last name cannot be empty");
@@ -61,7 +61,7 @@ public static void DeleteBook()
             try
             {
                 System.Console.WriteLine("Enter the title of the book you want to delete");
-                string title = Console.ReadLine().ToUpper();
+                string title = Console.ReadLine().ToLower();
                 
                 if (string.IsNullOrWhiteSpace(title))
                 {
@@ -108,7 +108,7 @@ public static void DeleteBookloan()
            try
             {
                 System.Console.WriteLine("Enter the ID of the book loan you want to delete");
-                string LoanId = Console.ReadLine()?.Trim().ToLower();
+                string LoanId = Console.ReadLine();
                 if (!int.TryParse(LoanId, out int loanId))
                 {
                     throw new ArgumentException("Invalid format. Try again please");

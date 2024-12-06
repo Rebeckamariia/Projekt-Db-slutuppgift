@@ -12,7 +12,7 @@ public class UpdateData
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     System.Console.WriteLine("Enter the title of the book");
-                    string title = Console.ReadLine();
+                    string title = Console.ReadLine().ToLower();
                     
                     if (string.IsNullOrWhiteSpace(title))
                     {
@@ -26,14 +26,14 @@ public class UpdateData
                         return;
                     }
                     System.Console.WriteLine("Enter the first name for the author");
-                    string firstName = Console.ReadLine();
+                    string firstName = Console.ReadLine().ToLower();
                    
                     if (string.IsNullOrWhiteSpace(firstName))
                     {
                         throw new ArgumentException("First name cannot be empty");
                     }
                     Console.WriteLine("Enter the last name of the author");
-                    string lastName = Console.ReadLine();
+                    string lastName = Console.ReadLine().ToLower();
                     
                     if (string.IsNullOrWhiteSpace(lastName))
                     {
@@ -75,14 +75,16 @@ public static void BookLoan()
             using (var context = new AppDbContext())
             {
                 Console.WriteLine("Enter the first and last name of the borrower:");
-                string borrowerName = Console.ReadLine();
+                string borrowerName = Console.ReadLine().ToLower();
+ 
  
                 if (string.IsNullOrWhiteSpace(borrowerName))
                 {
                     throw new ArgumentException("The borrower name cannot be empty");
                 }
                 Console.WriteLine("Enter the name of the book to borrow:");
-                string bookName = Console.ReadLine();
+                string bookName = Console.ReadLine().ToLower();
+ 
  
                 if (string.IsNullOrWhiteSpace(bookName))
                 {

@@ -145,25 +145,25 @@ public static void HandleListData()
                 case "1":
                     {
                         Console.Clear();
-                        ReadData.ListBooksAndAuthors();
+                        ReadAndListData.ListAuthorsAndBooks();
                         break;
                     }
                 case "2":
                     {
                         Console.Clear();
-                        ReadData.ListLoanedBooks();
+                        ReadAndListData.ListLoanedBooks();
                         break;
                     }
                 case "3":
                     {
                         Console.Clear();
-                        ReadData.ListBooksByAuthor();
+                        ReadAndListData.ListBooksByAuthor();
                         break;
                     }
                 case "4":
                     {
                         Console.Clear();
-                        ReadData.ListAuthorsForBook();
+                        ReadAndListData.ListAuthorsForBook();
                         break;
                     }
                 case "5":
