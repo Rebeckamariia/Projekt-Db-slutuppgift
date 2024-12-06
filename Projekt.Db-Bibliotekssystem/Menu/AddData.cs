@@ -39,7 +39,6 @@ public class AddData
             context.SaveChanges();
             Console.WriteLine($"Author {firstname} {lastname} born {dateofbirth} has been added :)");
             }
-
             catch (Exception ex)
             {                
                 Console.WriteLine($"Error: {ex.Message}");
@@ -47,7 +46,7 @@ public class AddData
         }
     }
 
-    public static void CreateBook()
+public static void CreateBook()
     {
         using (var context = new AppDbContext())
         {
@@ -90,7 +89,7 @@ public class AddData
         }
     }
 
-    public static void CreateBookloan()
+public static void CreateBookloan()
     {
         try
         {

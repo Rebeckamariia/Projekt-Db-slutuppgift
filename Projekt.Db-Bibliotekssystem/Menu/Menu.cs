@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class MenuData
 {
-    public static void HandleData()
+public static void HandleData()
     {
         bool DataHandle = true;
         while (DataHandle)
@@ -83,17 +83,17 @@ public class MenuData
             }
         }
     }
-    public static void HandleDeleteData()
+public static void HandleDeleteData()
     {
         bool DataHandle = true;
         while (DataHandle)
+        {
         System.Console.WriteLine("What data do you want to Delete?");
         System.Console.WriteLine("1. Delete Author");
         System.Console.WriteLine("2. Delete Book");
         System.Console.WriteLine("3. Delete bookloan");
         System.Console.WriteLine("4. Go back to main menu");
         var input = Console.ReadLine();
-        {
             switch (input)
             {
                 case "1":
@@ -127,7 +127,7 @@ public class MenuData
             }
         }
     }
-    public static void HandleListData()
+public static void HandleListData()
     {
         bool DataHandle = true;
         while (DataHandle)

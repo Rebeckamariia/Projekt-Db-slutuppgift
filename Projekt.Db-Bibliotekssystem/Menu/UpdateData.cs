@@ -68,7 +68,7 @@ public class UpdateData
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
-    public static void BookLoan()
+public static void BookLoan()
     {
         try
         {
