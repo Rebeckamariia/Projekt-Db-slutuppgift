@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
  
 public class UpdateData
 {
+    private static string newName;
+
     public static void BookAuthorRelation()
     {
         try
@@ -47,19 +49,37 @@ public class UpdateData
                         Console.WriteLine($"No author found with the name '{firstName}' '{lastName}'");
                         return;
                     }
-                    var bookAuthor = new Authorbook
+                    var existingRelation = context.Authorbooks
+                    .FirstOrDefault(ba => ba.BookId == book.Id && ba.AuthorId == author.Id);
+ 
+                    if (existingRelation == null)
                     {
-                        Book = book,
-                        Author = author,
-                        BookId = book.Id,
-                        AuthorId = author.Id
-                    };
+                        Console.WriteLine($"No relation found between the book '{title}' and author '{firstName} {lastName}'");
+                        return;
+                    }
+                    Console.WriteLine("Enter the new title of the book:");
+                    string newTitle = Console.ReadLine().ToLower();
+                    if (!string.IsNullOrWhiteSpace(newTitle))
+                    {
+                        book.Title = newTitle;
+                    }
  
-                    context.Authorbooks.Add(bookAuthor);
+                    Console.WriteLine("Enter the new first name of the author:");
+                    string newFirstName = Console.ReadLine().ToLower();
+                    if (!string.IsNullOrWhiteSpace(newFirstName))
+                    {
+                        author.FirstName = newFirstName;
+                    }
+ 
+                    Console.WriteLine("Enter the new last name of the author:");
+                    string newLastName = Console.ReadLine().ToLower();
+                    if (!string.IsNullOrWhiteSpace(newLastName))
+                    {
+                        author.LastName = newLastName;
+                    }
+ 
                     context.SaveChanges();
- 
-                    Console.WriteLine($"Book with ID {book.Id} and author with ID {author.Id} have been linked.");
-                    transaction.Commit();
+                    Console.WriteLine($"The book '{book.Title}'with ID {book.Id} and the author '{author.FirstName} {author.LastName}' with ID {author.Id} have been linked.");
                 }
             }
         }
@@ -68,61 +88,50 @@ public class UpdateData
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
-public static void BookLoan()
+    public static void BookLoan()
     {
         try
         {
             using (var context = new AppDbContext())
             {
-                Console.WriteLine("Enter the first and last name of the borrower:");
-                string borrowerName = Console.ReadLine().ToLower();
- 
- 
-                if (string.IsNullOrWhiteSpace(borrowerName))
+                Console.WriteLine("Enter the ID of the loan you want to update:");
+                if (!int.TryParse(Console.ReadLine(), out int loanId))
                 {
-                    throw new ArgumentException("The borrower name cannot be empty");
+                    throw new ArgumentException("Invalid loan ID");
                 }
-                Console.WriteLine("Enter the name of the book to borrow:");
-                string bookName = Console.ReadLine().ToLower();
  
- 
-                if (string.IsNullOrWhiteSpace(bookName))
+                var loan = context.Loans.Include(l => l.Book).FirstOrDefault(l => l.Id == loanId);
+                if (loan == null)
                 {
-                    throw new ArgumentException("Book title cannot be empty");
-                }
-                Console.WriteLine("Enter the loan start date (YYYY-MM-DD):");
-                
-                if (!DateTime.TryParse(Console.ReadLine(), out DateTime loanDate))
-                {
-                    throw new ArgumentException("Invalid format. Please use YYYY-MM-DD");
-                }
-                Console.WriteLine("Enter the loan return date (YYYY-MM-DD):");
-                
-                if (!DateTime.TryParse(Console.ReadLine(), out DateTime returnDate))
-                {
-                    throw new ArgumentException("Invalid format. Please use YYYY-MM-DD");
-                }
-                var book = context.Books
-                .FirstOrDefault(b => b.Title.ToLower() == bookName.ToLower());
- 
-                if (book == null)
-                {
-                    Console.WriteLine($"No book found with the title '{bookName}");
+                    Console.WriteLine($"No loan found with ID {loanId}.");
                     return;
                 }
- 
-                var loan = new Loan
+                Console.WriteLine("Current loan details:");
+                Console.WriteLine($"Loan ID: {loan.Id}, Book: {loan.Book.Title}, Borrower:{loan.BorrowerName}\n Loan Date: {loan.LoanDate.ToShortDateString()}, Return Date: {loan.ReturnDate}");
+                string newFirstName = Console.ReadLine()?.ToLower();
+                if (!string.IsNullOrWhiteSpace(newFirstName))
                 {
-                    BorrowerName = borrowerName,
-                    BookId = book.Id,
-                    LoanDate = loanDate,
-                    ReturnDate = returnDate
-                };
+                    loan.BorrowerName = newName;
+                }
+                Console.WriteLine("Enter the new borrower's name (or leave blank to keep the current :)");
+                string newLastName = Console.ReadLine()?.Trim();
+    
  
-                context.Loans.Add(loan);
+                Console.WriteLine("Enter the new loan start date (YYYY-MM-DD) (or leave blank to keep the current :)");
+                string newLoanDateInput = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrWhiteSpace(newLoanDateInput) && DateTime.TryParse(newLoanDateInput, out DateTime newLoanDate))
+                {
+                    loan.LoanDate = newLoanDate;
+                }
+ 
+                Console.WriteLine("Enter the new return date (YYYY-MM-DD) (or leave blank to keep the current :)");
+                string newReturnDateInput = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrWhiteSpace(newReturnDateInput) && DateTime.TryParse(newReturnDateInput, out DateTime newReturnDate))
+                {
+                    loan.ReturnDate = newReturnDate;
+                }
                 context.SaveChanges();
- 
-                Console.WriteLine($"Book '{book.Title}' has been loaned to {borrowerName} from {loanDate.ToShortDateString()} to {returnDate.ToShortDateString()}.");
+                Console.WriteLine("Loan updated succeeded :)");
             }
         }
         catch (Exception ex)
