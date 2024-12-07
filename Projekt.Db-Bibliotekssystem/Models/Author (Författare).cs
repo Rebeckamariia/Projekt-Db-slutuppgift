@@ -10,6 +10,6 @@ namespace Projekt.Db.Models
         public string LastName { get; set;}
         public DateTime DateOfBirth { get; set; }
 
-        public ICollection<Authorbook> AuthorBooks { get; set; } //Koppling --> relation till authorbooks
+        public ICollection<AuthorBook> AuthorBooks { get; set; } //Koppling --> relation till authorbooks
     }
 }

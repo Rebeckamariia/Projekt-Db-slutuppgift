@@ -27,7 +27,7 @@ public class AddData
 
                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime dateofbirth))
                 {
-                    Console.WriteLine("Invalid format. Please use YYYY-MM-DD");
+                    Console.WriteLine("Invalid format. Please use (YYYY-MM-DD)");
                     return;
                 }
             var Author = new Author
@@ -70,7 +70,7 @@ public static void CreateBook()
 
                 if (!int.TryParse(Console.ReadLine(), out int publicationyear) || publicationyear < 0)
                 {
-                    throw new ArgumentException ("Invalid format. Please use YYYY-MM-DD");
+                    throw new ArgumentException ("Invalid format. Please use (YYYY-MM-DD)");
                 }
             var book = new Book
             {
@@ -120,13 +120,13 @@ public static void CreateBookloan()
                
                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime loanDate))
                 {
-                    throw new ArgumentException("Invalid format. Please use YYYY-MM-DD");
+                    throw new ArgumentException("Invalid format. Please use (YYYY-MM-DD)");
                 }
                 Console.WriteLine("Enter the loan return date (YYYY-MM-DD):");
                 
                 if (!DateTime.TryParse(Console.ReadLine(), out DateTime returnDate))
                 {
-                    throw new ArgumentException("Invalid format. Please use YYYY-MM-DD");
+                    throw new ArgumentException("Invalid format. Please use (YYYY-MM-DD)");
                 }
                 var loan = new Loan
                 {
@@ -147,4 +147,80 @@ public static void CreateBookloan()
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
+
+
+public static void CreateBookAndAuthorsRelation()
+{
+    using (var context = new AppDbContext())
+    {
+        try
+        {
+            Console.WriteLine("Enter the title of the book:");
+            string bookTitle = Console.ReadLine()?.ToLower().Trim();
+            if (string.IsNullOrWhiteSpace(bookTitle))
+            {
+                throw new ArgumentException("Book title cannot be empty");
+            }
+ 
+            var book = context.Books.FirstOrDefault(b => b.Title.ToLower() == bookTitle);
+            if (book == null)
+            {
+                Console.WriteLine("The book does not exist in the database");
+                return;
+            }
+ 
+            Console.WriteLine("Enter the number of authors to associate with this book:");
+            if (!int.TryParse(Console.ReadLine(), out int numberOfAuthors) || numberOfAuthors <= 0)
+            {
+                throw new ArgumentException("Invalid number of authors");
+            }
+ 
+            for (int i = 1; i <= numberOfAuthors; i++)
+            {
+                Console.WriteLine($"Enter the first name of author {i}:");
+                string authorFirstName = Console.ReadLine()?.ToLower().Trim();
+                if (string.IsNullOrWhiteSpace(authorFirstName))
+                {
+                    throw new ArgumentException("Author's first name cannot be empty");
+                }
+ 
+                Console.WriteLine($"Enter the last name of author {i}:");
+                string authorLastName = Console.ReadLine()?.ToLower().Trim();
+                if (string.IsNullOrWhiteSpace(authorLastName))
+                {
+                    throw new ArgumentException("Author's last name cannot be empty");
+                }
+ 
+                var author = context.Authors.FirstOrDefault(a =>
+                    a.FirstName.ToLower() == authorFirstName && a.LastName.ToLower() == authorLastName);
+                if (author == null)
+                {
+                    Console.WriteLine($"The author '{authorFirstName} {authorLastName}' does not exist.");
+                }
+                var existingRelation = context.AuthorBooks
+                    .FirstOrDefault(ba => ba.BookId == book.Id && ba.AuthorId == author.Id);
+                if (existingRelation != null)
+                {
+                    Console.WriteLine($"The book '{bookTitle}' is already associated with the author '{authorFirstName} {authorLastName}'.");
+                    continue;
+                }
+                var bookAuthorRelation = new AuthorBook
+                {
+                    BookId = book.Id,
+                    AuthorId = author.Id
+                };
+ 
+                context.AuthorBooks.Add(bookAuthorRelation);
+                Console.WriteLine($"The book '{book.Title}' has been linked with the author '{author.FirstName} {author.LastName}'.");
+            }
+ 
+            context.SaveChanges();
+            Console.WriteLine($"All valid author associations for the book '{book.Title}' have been saved.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+  } 
 }

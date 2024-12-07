@@ -5,42 +5,53 @@ public class MenuData
 {
 public static void HandleData()
     {
-        bool DataHandle = true;
+       bool DataHandle = true;
         while (DataHandle)
         {
             System.Console.WriteLine("What data do you want to add?");
             System.Console.WriteLine("1. Add an Author");
             System.Console.WriteLine("2. Add a book");
             System.Console.WriteLine("3. Add a bookloan");
-            System.Console.WriteLine("4. Go back to main menu");
-            var input = Console.ReadLine();
+            System.Console.WriteLine("4. Add a book and author relation");
+            System.Console.WriteLine("5. Go back to main menu");
+            var input = Console.ReadLine().ToLower();
             {
                 switch (input)
                 {
                     case "1":
                         {
+                            Console.Clear();
                             AddData.CreateAuthor();
                             break;
                         }
                     case "2":
                         {
+                            Console.Clear();
                             AddData.CreateBook();
                             break;
                         }
                     case "3":
                         {
+                            Console.Clear();
                             AddData.CreateBookloan();
                             break;
                         }
-                    case "4":
+                      case "4":
                         {
-                            System.Console.WriteLine("Exiting program");
+                            Console.Clear();
+                            AddData.CreateBookAndAuthorsRelation();
+                            return;
+                        }
+                    case "5":
+                        {
+                            Console.Clear();
+                            System.Console.WriteLine("Going back to main menu");
                             return;
                         }
                     default:
                         {
-                            System.Console.WriteLine("OOPPPSSS... ERROR");
-                            break;
+                            Console.Clear();
+                            System.Console.WriteLine("Oops... A problem occured"); break;
                         }
                 }
             }
@@ -73,17 +84,17 @@ public static void HandleData()
                 case "3":
                     {
                         Console.Clear();
-                        System.Console.WriteLine("Exiting program");
+                        System.Console.WriteLine("Going back to main menu");
                         return;
                     }
                 default:
                     Console.Clear();
-                    System.Console.WriteLine("OOPPPSSS... ERROR");
+                    System.Console.WriteLine("Oops... A problem occured");
                     break;
             }
         }
     }
-public static void HandleDeleteData()
+    public static void HandleDeleteData()
     {
         bool DataHandle = true;
         while (DataHandle)
@@ -94,6 +105,7 @@ public static void HandleDeleteData()
         System.Console.WriteLine("3. Delete bookloan");
         System.Console.WriteLine("4. Go back to main menu");
         var input = Console.ReadLine();
+       
             switch (input)
             {
                 case "1":
@@ -117,27 +129,29 @@ public static void HandleDeleteData()
                 case "4":
                     {
                         Console.Clear();
-                        System.Console.WriteLine("Exiting program");
+                        System.Console.WriteLine("Going back to main menu");
                         return;
                     }
                 default:
                     Console.Clear();
-                    System.Console.WriteLine("OOPPPSSS... ERROR");
+                    System.Console.WriteLine("Oops... A problem occured");
                     break;
             }
         }
     }
-public static void HandleListData()
+    public static void HandleListData()
     {
         bool DataHandle = true;
         while (DataHandle)
         {
             System.Console.WriteLine("What data do you want to List?");
-            System.Console.WriteLine("1. List books and authors");
-            System.Console.WriteLine("2. List loaned books");
-            System.Console.WriteLine("3. List books by one author");
-            System.Console.WriteLine("4. List every author for one book");
-            System.Console.WriteLine("5. Go back to main menu");
+            System.Console.WriteLine("1. List books");
+            System.Console.WriteLine("2. List authors");
+            System.Console.WriteLine("3. List books and authors");
+            System.Console.WriteLine("4. List loaned books");
+            System.Console.WriteLine("5. List books by one author");
+            System.Console.WriteLine("6. List every author for one book");
+            System.Console.WriteLine("7. Go back to main menu");
             var input = Console.ReadLine();
  
             switch (input)
@@ -145,36 +159,48 @@ public static void HandleListData()
                 case "1":
                     {
                         Console.Clear();
-                        ReadAndListData.ListAuthorsAndBooks();
+                        ReadAndListData.ListBooks();
                         break;
                     }
-                case "2":
+                        case "2":
                     {
                         Console.Clear();
-                        ReadAndListData.ListLoanedBooks();
+                        ReadAndListData.ListAuthors();
                         break;
                     }
-                case "3":
+                        case "3":
                     {
                         Console.Clear();
-                        ReadAndListData.ListBooksByAuthor();
+                        ReadAndListData.ListBooksAndAuthors();
                         break;
                     }
                 case "4":
                     {
                         Console.Clear();
-                        ReadAndListData.ListAuthorsForBook();
+                        ReadAndListData.ListLoanedBooks();
                         break;
                     }
                 case "5":
                     {
                         Console.Clear();
-                        System.Console.WriteLine("Exiting program");
+                        ReadAndListData.ListBooksByAuthor();
+                        break;
+                    }
+                case "6":
+                    {
+                        Console.Clear();
+                        ReadAndListData.ListAuthorsForBook();
+                        break;
+                    }
+                case "7":
+                    {
+                        Console.Clear();
+                        System.Console.WriteLine("Going back to main menu");
                         return;
                     }
                 default:
                     Console.Clear();
-                    System.Console.WriteLine("OOPPPSSS... ERROR");
+                    System.Console.WriteLine("Oops... A problem occured");
                     break;
             }
         }

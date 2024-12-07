@@ -2,7 +2,7 @@ using System.Data;
 
 namespace Projekt.Db.Models
 {
-    public class Authorbook
+    public class AuthorBook
     {
         public int BookId { get; set; } //FK
         public Book Book { get; set; } //Property for Book
